@@ -237,7 +237,7 @@
             </div>
             
             <div class="input-group">
-                <label for="input-jumlah">Berapa Orang?</label>
+                <label for="input-jumlah">Berapa Orang?  (maks 35)</label>
                 <input type="number" id="input-jumlah" placeholder="contoh: 28" min="1" max="35">
             </div>
 
@@ -286,10 +286,11 @@
                 alert("Eh, isi nama kelasnya dulu dong.");
                 return;
             }
-            if (isNaN(inputJumlah) || inputJumlah <= 0) {
+            if (isNaN(inputJumlah) || inputJumlah <= 0 and > 35) {
                 alert("Masukin jumlah siswanya yang bener ya.");
                 return;
             }
+      
 
             totalSiswa = inputJumlah;
             formatMeja = inputFormat;
