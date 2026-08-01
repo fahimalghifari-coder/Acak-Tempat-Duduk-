@@ -81,9 +81,8 @@
             margin-bottom: 8px; 
         }
 
-        /* --- STYLES SERAGAM UNTUK SEMUA BAR PENGISIAN (INPUT & SELECT) --- */
-        .input-group input, 
-        .input-group select { 
+        /* --- STYLES UNTUK SEMUA INPUT --- */
+        .input-group input { 
             width: 100%; 
             padding: 14px 16px; 
             font-size: 15px; 
@@ -99,28 +98,23 @@
         .input-group input::placeholder {
             color: rgba(255, 255, 255, 0.35);
         }
-
-        .input-group select option {
-            background-color: #1e1e2e;
-            color: #ffffff;
-        }
         
-        .input-group input:focus, 
-        .input-group select:focus { 
+        .input-group input:focus { 
             border-color: var(--accent);
             background-color: rgba(0, 0, 0, 0.4);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
-        /* --- STYLES KHUSUS DROPDOWN KELAS --- */
+        /* --- STYLES KHUSUS CUSTOM DROPDOWN (KELAS & MODEL MEJA) --- */
         .custom-select-wrapper {
             position: relative;
             width: 100%;
         }
 
-        /* Beri ruang di kanan khusus input kelas untuk tombol v */
+        /* Beri ruang tambahan di kanan input untuk tombol panah v */
         .custom-select-wrapper input {
             padding-right: 45px;
+            cursor: pointer;
         }
 
         .dropdown-toggle {
@@ -187,7 +181,7 @@
             color: #ffffff;
         }
 
-        /* Scrollbar Halus untuk List Kelas */
+        /* Scrollbar Halus untuk List Dropdown */
         .dropdown-list::-webkit-scrollbar {
             width: 6px;
         }
@@ -341,10 +335,11 @@
 
             <div class="input-group">
                 <label for="input-format">Model Meja</label>
-                <select id="input-format">
-                    <option value="individu">Sendiri-sendiri</option>
-                    <option value="pasangan">Sebangku (Berdua)</option>
-                </select>
+                <div class="custom-select-wrapper">
+                    <input type="text" id="input-format" value="Sendiri-sendiri" data-value="individu" readonly placeholder="Pilih Model Meja" autocomplete="off">
+                    <button type="button" class="dropdown-toggle" id="btn-toggle-format" aria-label="Buka Opsi Model Meja">▼</button>
+                    <div class="dropdown-list" id="list-format"></div>
+                </div>
             </div>
             
             <button class="btn-utama" onclick="mulaiAplikasi()">Buat Ruang Kelas</button>
@@ -386,7 +381,7 @@
             });
         });
 
-        // Elements DOM
+        // DOM Elements - Kelas
         const inputKelas = document.getElementById('input-kelas');
         const listKelas = document.getElementById('list-kelas');
         const btnToggleKelas = document.getElementById('btn-toggle-kelas');
@@ -418,19 +413,22 @@
             }
         }
 
-        // Event Listeners Input & Dropdown Toggle
+        // Event Listeners Input Kelas
         inputKelas.addEventListener('input', (e) => {
             renderListKelas(e.target.value);
             listKelas.classList.add('show');
+            listFormat.classList.remove('show');
         });
 
         inputKelas.addEventListener('focus', () => {
             renderListKelas(inputKelas.value);
             listKelas.classList.add('show');
+            listFormat.classList.remove('show');
         });
 
         btnToggleKelas.addEventListener('click', (e) => {
             e.stopPropagation();
+            listFormat.classList.remove('show');
             if (listKelas.classList.contains('show')) {
                 listKelas.classList.remove('show');
             } else {
@@ -439,10 +437,52 @@
             }
         });
 
-        // Tutup Dropdown Jika Klik di Luar Element
+        // --- PREPARATION DATA MODEL MEJA ---
+        const opsimejaData = [
+            { label: 'Sendiri-sendiri', value: 'individu' },
+            { label: 'Sebangku (Berdua)', value: 'pasangan' }
+        ];
+
+        // DOM Elements - Model Meja
+        const inputFormat = document.getElementById('input-format');
+        const listFormat = document.getElementById('list-format');
+        const btnToggleFormat = document.getElementById('btn-toggle-format');
+
+        // Render List Model Meja
+        function renderListFormat() {
+            listFormat.innerHTML = '';
+            opsimejaData.forEach(opt => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                item.textContent = opt.label;
+                item.addEventListener('click', () => {
+                    inputFormat.value = opt.label;
+                    inputFormat.dataset.value = opt.value;
+                    listFormat.classList.remove('show');
+                });
+                listFormat.appendChild(item);
+            });
+        }
+
+        function toggleFormatDropdown(e) {
+            e.stopPropagation();
+            listKelas.classList.remove('show');
+            if (listFormat.classList.contains('show')) {
+                listFormat.classList.remove('show');
+            } else {
+                renderListFormat();
+                listFormat.classList.add('show');
+            }
+        }
+
+        inputFormat.addEventListener('click', toggleFormatDropdown);
+        btnToggleFormat.addEventListener('click', toggleFormatDropdown);
+
+        // Tutup semua dropdown jika klik di luar element
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.custom-select-wrapper')) {
                 listKelas.classList.remove('show');
+                listFormat.classList.remove('show');
             }
         });
 
@@ -450,7 +490,7 @@
         function mulaiAplikasi() {
             const inputKelasVal = inputKelas.value.trim();
             const inputJumlah = parseInt(document.getElementById('input-jumlah').value);
-            const inputFormat = document.getElementById('input-format').value;
+            const inputFormatVal = inputFormat.dataset.value || 'individu';
 
             if (!inputKelasVal) {
                 alert("Eh, isi nama kelasnya dulu dong.");
@@ -462,7 +502,7 @@
             }
 
             totalSiswa = inputJumlah;
-            formatMeja = inputFormat;
+            formatMeja = inputFormatVal;
 
             // Logika Perhitungan Ruang Grid
             const mejaPerCard = formatMeja === 'pasangan' ? 2 : 1;
@@ -542,5 +582,4 @@
 </body>
 </html>
 
-            
-       
+           
