@@ -105,13 +105,12 @@
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
-        /* --- STYLES KHUSUS CUSTOM DROPDOWN (KELAS & MODEL MEJA) --- */
+        /* --- STYLES KHUSUS CUSTOM DROPDOWN --- */
         .custom-select-wrapper {
             position: relative;
             width: 100%;
         }
 
-        /* Beri ruang tambahan di kanan input untuk tombol panah v */
         .custom-select-wrapper input {
             padding-right: 45px;
             cursor: pointer;
@@ -181,7 +180,6 @@
             color: #ffffff;
         }
 
-        /* Scrollbar Halus untuk List Dropdown */
         .dropdown-list::-webkit-scrollbar {
             width: 6px;
         }
@@ -193,7 +191,14 @@
             background: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- BUTTON & LAYOUT UTAMA --- */
+        /* --- BUTTONS & LAYOUT TOMBOL --- */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
         button.btn-utama { 
             background-color: var(--accent); 
             color: white; 
@@ -206,7 +211,6 @@
             width: 100%; 
             cursor: pointer; 
             transition: all 0.2s ease; 
-            margin-top: 10px;
             box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
         }
         
@@ -216,6 +220,39 @@
             box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
         }
         button.btn-utama:active { transform: translateY(1px); }
+
+        button.btn-sekunder {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            border: 1px solid var(--border-light);
+            padding: 14px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        button.btn-sekunder:hover {
+            background-color: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        button.btn-sekunder:active { transform: translateY(1px); }
+
+        button.btn-bahaya {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        button.btn-bahaya:hover {
+            background-color: rgba(239, 68, 68, 0.3);
+            color: #ffffff;
+            border-color: rgba(239, 68, 68, 0.5);
+        }
         
         .header-area { 
             display: flex; 
@@ -343,6 +380,9 @@
             </div>
             
             <button class="btn-utama" onclick="mulaiAplikasi()">Buat Ruang Kelas</button>
+            <div class="button-group" style="margin-top: 12px;">
+                <button class="btn-sekunder btn-bahaya" onclick="resetFormInputs()">Reset Input Form</button>
+            </div>
         </div>
     </main>
 
@@ -358,6 +398,11 @@
         <div id="kelas" class="grid-kelas"></div>
 
         <button class="btn-utama" onclick="acakTempatDuduk()">Acak Sekarang!</button>
+
+        <div class="button-group">
+            <button class="btn-sekunder btn-bahaya" onclick="resetSusunan()">Reset Susunan</button>
+            <button class="btn-sekunder" onclick="kembaliKePengisian()">Kembali ke Pengisian Data</button>
+        </div>
     </main>
 
     <footer class="footer">
@@ -486,7 +531,7 @@
             }
         });
 
-        // --- LOGIK APLIKASI ---
+        // --- NAVIGASI DAN LOGIKA APLIKASI ---
         function mulaiAplikasi() {
             const inputKelasVal = inputKelas.value.trim();
             const inputJumlah = parseInt(document.getElementById('input-jumlah').value);
@@ -509,7 +554,6 @@
             const totalItemGrid = Math.ceil(totalSiswa / mejaPerCard); 
             const kolomGrid = Math.ceil(Math.sqrt(totalItemGrid));
 
-            // Set Variabel CSS Grid Column
             document.documentElement.style.setProperty('--kolom-grid', kolomGrid);
 
             // Ganti Layar
@@ -519,6 +563,26 @@
 
             const urutanAwal = Array.from({ length: totalSiswa }, (_, i) => i + 1);
             renderKelas(urutanAwal);
+        }
+
+        // Kembali ke Pengisian Data
+        function kembaliKePengisian() {
+            document.getElementById('layar-utama').style.display = 'none';
+            document.getElementById('layar-pengaturan').style.display = 'flex';
+        }
+
+        // Reset Susunan Tempat Duduk ke Urutan Awal (1, 2, 3...)
+        function resetSusunan() {
+            const urutanAwal = Array.from({ length: totalSiswa }, (_, i) => i + 1);
+            renderKelas(urutanAwal);
+        }
+
+        // Reset Form Pengisian Input
+        function resetFormInputs() {
+            inputKelas.value = '';
+            document.getElementById('input-jumlah').value = '';
+            inputFormat.value = 'Sendiri-sendiri';
+            inputFormat.dataset.value = 'individu';
         }
 
         function shuffleArray(array) {
@@ -582,4 +646,5 @@
 </body>
 </html>
 
-           
+            
+               
