@@ -80,8 +80,10 @@
             color: #ced4da; 
             margin-bottom: 8px; 
         }
-        
-        .input-group input, .input-group select { 
+
+        /* --- STYLES SERAGAM UNTUK SEMUA BAR PENGISIAN (INPUT & SELECT) --- */
+        .input-group input, 
+        .input-group select { 
             width: 100%; 
             padding: 14px 16px; 
             font-size: 15px; 
@@ -93,15 +95,453 @@
             transition: all 0.3s ease;
             font-family: inherit;
         }
-        
-        /* Ubah warna teks option biar kelihatan pas di-klik */
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
         .input-group select option {
             background-color: #1e1e2e;
             color: #ffffff;
         }
         
-        .input-group input:focus, .input-group select:focus { 
+        .input-group input:focus, 
+        .input-group select:focus { 
             border-color: var(--accent);
+            background-color: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        /* --- STYLES KHUSUS DROPDOWN KELAS --- */
+        .custom-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Beri ruang di kanan khusus input kelas untuk tombol v */
+        .custom-select-wrapper input {
+            padding-right: 45px;
+        }
+
+        .dropdown-toggle {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            padding: 8px 12px;
+            width: auto;
+            margin-top: 0;
+            box-shadow: none;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .dropdown-toggle:hover {
+            background: transparent;
+            color: white;
+            box-shadow: none;
+            transform: translateY(-50%) scale(1.15);
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            max-height: 220px;
+            overflow-y: auto;
+            background-color: #1a1a28;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            z-index: 100;
+            display: none;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .dropdown-list.show {
+            display: block;
+            animation: fadeInDown 0.2s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            font-size: 14px;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--accent);
+            color: #ffffff;
+        }
+
+        /* Scrollbar Halus untuk List Kelas */
+        .dropdown-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .dropdown-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        .dropdown-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- BUTTON & LAYOUT UTAMA --- */
+        button.btn-utama { 
+            background-color: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 16px 24px; 
+            font-size: 16px; 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 10px; 
+            width: 100%; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        button.btn-utama:hover { 
+            background-color: var(--accent-hover); 
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+        }
+        button.btn-utama:active { transform: translateY(1px); }
+        
+        .header-area { 
+            display: flex; 
+            justify-content: space-between; 
+            width: 100%; 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        
+        .meja-guru { 
+            flex: 1; 
+            border: 1px dashed rgba(255, 255, 255, 0.2); 
+            color: var(--text-muted); 
+            font-size: 12px; 
+            font-weight: 600; 
+            text-align: center; 
+            padding: 12px; 
+            border-radius: 8px; 
+            background-color: rgba(255, 255, 255, 0.02);
+            letter-spacing: 1px;
+        }
+        
+        .papan-tulis { 
+            flex: 2; 
+            background-color: rgba(0, 0, 0, 0.4); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: white; 
+            font-size: 13px; 
+            font-weight: 600; 
+            text-align: center; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 8px; 
+            letter-spacing: 2px; 
+        }
+        
+        .grid-kelas { 
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center; 
+            gap: var(--gap); 
+            width: 100%; 
+            margin-bottom: 20px;
+        }
+        
+        .card-pasangan { 
+            display: flex; 
+            width: calc((100% - ((var(--kolom-grid) - 1) * var(--gap))) / var(--kolom-grid));
+            background-color: transparent; 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 10px; 
+            padding: 6px; 
+            gap: 6px; 
+            opacity: 0; 
+            animation: fadeInUp 0.4s ease forwards; 
+        }
+        
+        @keyframes fadeInUp { 
+            0% { opacity: 0; transform: translateY(15px) scale(0.95); } 
+            100% { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+        
+        .meja { 
+            flex: 1; 
+            aspect-ratio: 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            font-size: 16px; 
+            color: var(--seat-text); 
+            background-color: var(--seat-bg); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+        
+        .meja:hover { 
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .footer { 
+            margin-top: 40px; 
+            text-align: center; 
+            font-size: 12px; 
+            color: rgba(255, 255, 255, 0.4); 
+        }
+        
+        .footer p { margin: 4px 0; }
+        .footer .jam { font-weight: 600; color: rgba(255, 255, 255, 0.7); }
+    </style>
+</head>
+<body>
+
+    <main id="layar-pengaturan" class="app-container">
+        <h1>Aplikasi Acak Tempat Duduk</h1>
+        <p class="subtitle">Isi datanya biar bisa langsung diacak.</p>
+        
+        <div class="form-container">
+            <div class="input-group">
+                <label for="input-kelas">Kelas</label>
+                <div class="custom-select-wrapper">
+                    <input type="text" id="input-kelas" placeholder="Cari atau pilih kelas (contoh: IX A1)" autocomplete="off">
+                    <button type="button" class="dropdown-toggle" id="btn-toggle-kelas" aria-label="Buka Opsi Kelas">▼</button>
+                    <div class="dropdown-list" id="list-kelas"></div>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="input-jumlah">Berapa Orang? (maks 35)</label>
+                <input type="number" id="input-jumlah" placeholder="contoh: 28" min="1" max="35">
+            </div>
+
+            <div class="input-group">
+                <label for="input-format">Model Meja</label>
+                <select id="input-format">
+                    <option value="individu">Sendiri-sendiri</option>
+                    <option value="pasangan">Sebangku (Berdua)</option>
+                </select>
+            </div>
+            
+            <button class="btn-utama" onclick="mulaiAplikasi()">Buat Ruang Kelas</button>
+        </div>
+    </main>
+
+    <main id="layar-utama" class="app-container" style="display: none;">
+        <h1 id="display-nama-kelas">Kelas</h1>
+        <p class="subtitle">Rolling Tempat Duduk Otomatis</p>
+        
+        <div class="header-area">
+            <div class="meja-guru">MEJA GURU</div>
+            <div class="papan-tulis">PAPAN TULIS</div>
+        </div>
+        
+        <div id="kelas" class="grid-kelas"></div>
+
+        <button class="btn-utama" onclick="acakTempatDuduk()">Acak Sekarang!</button>
+    </main>
+
+    <footer class="footer">
+        <p class="jam" id="waktu-sekarang"></p>
+        <p>by Fahim Al-Ghifari</p>
+    </footer>
+
+    <script>
+        const suaraAcak = new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3');
+        let totalSiswa = 0;
+        let formatMeja = 'individu';
+
+        // --- PREPARATION DATA KELAS (VII A1 - IX G) ---
+        const tingkatan = ['VII', 'VIII', 'IX'];
+        const abjad = ['A1', 'A2', 'A3', 'A4', 'A5', 'B', 'C', 'D', 'E', 'F', 'G'];
+        const daftarKelasData = [];
+
+        tingkatan.forEach(t => {
+            abjad.forEach(a => {
+                daftarKelasData.push(`${t} ${a}`);
+            });
+        });
+
+        // Elements DOM
+        const inputKelas = document.getElementById('input-kelas');
+        const listKelas = document.getElementById('list-kelas');
+        const btnToggleKelas = document.getElementById('btn-toggle-kelas');
+
+        // Render List Kelas
+        function renderListKelas(filterText = '') {
+            listKelas.innerHTML = '';
+            const keyword = filterText.toLowerCase().trim();
+            const filtered = daftarKelasData.filter(k => k.toLowerCase().includes(keyword));
+
+            if (filtered.length === 0) {
+                const emptyItem = document.createElement('div');
+                emptyItem.className = 'dropdown-item';
+                emptyItem.style.color = 'var(--text-muted)';
+                emptyItem.style.cursor = 'default';
+                emptyItem.textContent = 'Kelas tidak ditemukan';
+                listKelas.appendChild(emptyItem);
+            } else {
+                filtered.forEach(kelas => {
+                    const item = document.createElement('div');
+                    item.className = 'dropdown-item';
+                    item.textContent = kelas;
+                    item.addEventListener('click', () => {
+                        inputKelas.value = kelas;
+                        listKelas.classList.remove('show');
+                    });
+                    listKelas.appendChild(item);
+                });
+            }
+        }
+
+        // Event Listeners Input & Dropdown Toggle
+        inputKelas.addEventListener('input', (e) => {
+            renderListKelas(e.target.value);
+            listKelas.classList.add('show');
+        });
+
+        inputKelas.addEventListener('focus', () => {
+            renderListKelas(inputKelas.value);
+            listKelas.classList.add('show');
+        });
+
+        btnToggleKelas.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (listKelas.classList.contains('show')) {
+                listKelas.classList.remove('show');
+            } else {
+                renderListKelas('');
+                listKelas.classList.add('show');
+            }
+        });
+
+        // Tutup Dropdown Jika Klik di Luar Element
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-select-wrapper')) {
+                listKelas.classList.remove('show');
+            }
+        });
+
+        // --- LOGIK APLIKASI ---
+        function mulaiAplikasi() {
+            const inputKelasVal = inputKelas.value.trim();
+            const inputJumlah = parseInt(document.getElementById('input-jumlah').value);
+            const inputFormat = document.getElementById('input-format').value;
+
+            if (!inputKelasVal) {
+                alert("Eh, isi nama kelasnya dulu dong.");
+                return;
+            }
+            if (isNaN(inputJumlah) || inputJumlah <= 0 || inputJumlah > 35) {
+                alert("Masukin jumlah siswanya yang bener ya (1 - 35).");
+                return;
+            }
+
+            totalSiswa = inputJumlah;
+            formatMeja = inputFormat;
+
+            // Logika Perhitungan Ruang Grid
+            const mejaPerCard = formatMeja === 'pasangan' ? 2 : 1;
+            const totalItemGrid = Math.ceil(totalSiswa / mejaPerCard); 
+            const kolomGrid = Math.ceil(Math.sqrt(totalItemGrid));
+
+            // Set Variabel CSS Grid Column
+            document.documentElement.style.setProperty('--kolom-grid', kolomGrid);
+
+            // Ganti Layar
+            document.getElementById('display-nama-kelas').innerText = inputKelasVal.toUpperCase();
+            document.getElementById('layar-pengaturan').style.display = 'none';
+            document.getElementById('layar-utama').style.display = 'flex';
+
+            const urutanAwal = Array.from({ length: totalSiswa }, (_, i) => i + 1);
+            renderKelas(urutanAwal);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function renderKelas(susunan) {
+            const wadahKelas = document.getElementById('kelas');
+            wadahKelas.innerHTML = ''; 
+            
+            const fragment = document.createDocumentFragment();
+            let cardPasangan = document.createElement('div');
+            cardPasangan.className = 'card-pasangan';
+            let urutanCard = 0; 
+            
+            const mejaPerCard = formatMeja === 'pasangan' ? 2 : 1;
+
+            susunan.forEach((nomorAbsen, index) => {
+                const meja = document.createElement('div');
+                meja.textContent = nomorAbsen;
+                meja.className = 'meja'; 
+                
+                cardPasangan.appendChild(meja);
+
+                if ((index + 1) % mejaPerCard === 0 || index === susunan.length - 1) {
+                    cardPasangan.style.animationDelay = `${urutanCard * 0.03}s`;
+                    fragment.appendChild(cardPasangan);
+                    
+                    urutanCard++; 
+                    cardPasangan = document.createElement('div');
+                    cardPasangan.className = 'card-pasangan';
+                }
+            });
+
+            wadahKelas.appendChild(fragment);
+        }
+
+        function acakTempatDuduk() {
+            suaraAcak.currentTime = 0; 
+            suaraAcak.play().catch(e => console.log("Audio aman."));
+
+            let susunanBaru = Array.from({ length: totalSiswa }, (_, i) => i + 1);
+            shuffleArray(susunanBaru);
+            
+            renderKelas(susunanBaru);
+        }
+
+        function updateJam() {
+            const sekarang = new Date();
+            const opsiTanggal = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            const tanggal = sekarang.toLocaleDateString('id-ID', opsiTanggal);
+            const waktu = sekarang.toLocaleTimeString('id-ID', { hour12: false });
+            document.getElementById('waktu-sekarang').innerText = `${tanggal} • ${waktu} WIB`;
+        }
+        setInterval(updateJam, 1000);
+        updateJam();
+    </script>
+</body>
+</html>
+
             background-color: rgba(0, 0, 0, 0.4);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
